@@ -8,8 +8,10 @@ library(biovizBase)
 freeze <- "hg18"
 
 #### get data/tracks ####
-## get sites ##
-load("sites.gr")
+## get point data aka sites ##
+## the data is processed from PMID: 24489369 & 21561906 ##
+load("sites.RData")
+sites.gr <- makeGRanges(sites, soloStart=TRUE, chromCol="Chr", freeze='hg18')
 sites.gr$Alias <- ifelse(grepl("HIV",sites.gr$setName), "HIV", "MLV")
 sites.gr$y <- runif(length(sites.gr), 0, 3)
 
