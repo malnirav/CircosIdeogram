@@ -25,7 +25,14 @@ hg18Ideo <- getIdeogram("hg18",cytoband=TRUE)
 hg18Ideo <- keepSeqlevels(hg18Ideo, seqlevels(sites.gr))
 
 ## get gc perc ##
-gcperc <- getUCSCtable("gc5Base","GC Percent")
+# gc5Base returned by rtracklayer is not tabular...argh! #
+# let's try a different approach #
+z <- gzcon(url(paste0("http://hgdownload.cse.ucsc.edu/goldenPath/", freeze, "/database/gc5Base.txt.gz")))
+zlines <- try(readLines(z))
+close(z)
+raw.data <- textConnection(zlines)
+gcperc <- read.delim(raw.data, header = FALSE, stringsAsFactors = FALSE)
+close(raw.data)
 gcperc$strand <- "*"
 gcperc <- makeGRanges(unique(gcperc), chromCol="chrom", freeze='hg18')
 gcperc <- keepSeqlevels(gcperc, seqlevels(sites.gr))
