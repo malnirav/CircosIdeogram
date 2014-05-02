@@ -88,6 +88,7 @@ p2 <- qplot(data=data.frame(Track=factor(names(dataset),
                                          levels=names(dataset))),1,Track,
             fill=Track, geom="tile") + scale_fill_manual(name="",values=dataset)
 
+## Hadley's legend abstraction trick! ##
 g_legend <- function(a.gplot) {
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
